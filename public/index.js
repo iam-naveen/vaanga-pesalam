@@ -23,7 +23,7 @@ client.on('message', (data) => {
         content.className = "others";
     }
 
-    msg.append(user);
+    msg.append(name);
     msg.append(content);
 
     document.querySelector(".chatroom").append(msg);
