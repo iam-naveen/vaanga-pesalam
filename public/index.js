@@ -2,24 +2,26 @@ const client = io();
 
 const form = document.querySelector('form');
 const input = document.querySelector('#textBox');
+const user = document.querySelector("#username")
 
 client.on('message', (data) => {
 
     const msg = document.createElement('div');
 
     const content = document.createElement('p');
-    if (data.username == input.value) {
+    content.textContent = data.msg;
+
+    const name = document.createElement('p');
+    name.className = "username"
+
+    if (data.username == user.val) {
+        name.textContent = "Me";
         content.className = "me";
-        content.textContent = "Me";
     }
     else {
+        name.textContent = data.username;
         content.className = "others";
-        content.textContent = data.msg;
     }
-
-    const user = document.createElement('p');
-    user.className = "username"
-    user.textContent = data.username
 
     msg.append(user);
     msg.append(content);
@@ -31,10 +33,9 @@ client.on('message', (data) => {
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (input.value) {
-        const user = document.querySelector("#username").value
         var data = {
             msg: input.value,
-            username: user
+            username: user.value
         }
         client.emit('message', data);
 
