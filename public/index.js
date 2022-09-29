@@ -8,8 +8,14 @@ client.on('message', (data) => {
     const msg = document.createElement('div');
 
     const content = document.createElement('p');
-    content.className = "others";
-    content.textContent = data.msg;
+    if (data.username == input.value) {
+        content.className = "me";
+        content.textContent = "Me";
+    }
+    else {
+        content.className = "others";
+        content.textContent = data.msg;
+    }
 
     const user = document.createElement('p');
     user.className = "username"
@@ -33,22 +39,6 @@ form.addEventListener('submit', (e) => {
         client.emit('message', data);
 
         input.value = '';
-
-
-        const msg = document.createElement('div');
-
-        const content = document.createElement('p');
-        content.className = "me";
-        content.textContent = data.msg;
-
-        const username = document.createElement('p');
-        username.className = "username";
-        username.textContent = "Me";
-
-        msg.append(username);
-        msg.append(content);
-
-        document.querySelector(".chatroom").append(msg);
     }
 })
 
