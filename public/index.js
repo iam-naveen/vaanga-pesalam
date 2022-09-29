@@ -14,7 +14,7 @@ client.on('message', (data) => {
     const name = document.createElement('p');
     name.className = "username"
 
-    if (data.username == user.val) {
+    if (data.username == user.value) {
         name.textContent = "Me";
         content.className = "me";
     }
