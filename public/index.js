@@ -1,48 +1,50 @@
 const client = io();
 
-const form = document.querySelector('form');
-const input = document.querySelector('#textBox');
-const user = document.querySelector("#username")
+const form = document.querySelector("form");
+const input = document.querySelector("#textBox");
+const user = document.querySelector("#username");
+const chatbox = document.querySelector(".chatroom");
 
-client.on('message', (data) => {
+client.on("message", (data) => {
+  const content = document.createElement("p");
+  content.textContent = data.msg;
+  content.id = data.id;
 
-    const msg = document.createElement('div');
+  const name = document.createElement("p");
+  name.className = "username";
 
-    const content = document.createElement('p');
-    content.textContent = data.msg;
+  const last = chatbox.lastChild;
 
-    const name = document.createElement('p');
-    name.className = "username"
+  if (data.id === client.id) {
+    if (last == null || last.id != client.id) name.textContent = "You";
+    content.className = "me";
+  } else {
+    if (last.id != data.id) name.textContent = data.username;
+    content.className = "others";
+  }
 
-    if (data.username == user.value) {
-        name.textContent = "Me";
-        content.className = "me";
-    }
-    else {
-        name.textContent = data.username;
-        content.className = "others";
-    }
-
+  if (last.id != data.id) {
+    const msg = document.createElement("div");
     msg.append(name);
     msg.append(content);
     msg.className = "message";
+    msg.id = data.id;
+    chatbox.append(msg);
+  } else last.append(content);
 
-    document.querySelector(".chatroom").append(msg);
-    console.log(msg);
-})
+  console.log(last.id);
+});
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (input.value) {
-        var data = {
-            msg: input.value,
-            username: user.value
-        }
-        client.emit('message', data);
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (input.value) {
+    var data = {
+      msg: input.value,
+      username: user.value,
+      id: client.id,
+    };
+    client.emit("message", data);
 
-        input.value = '';
-    }
-})
-
-
-
+    input.value = "";
+  }
+});

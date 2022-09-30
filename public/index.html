@@ -10,12 +10,11 @@
 
 <body>
 
+  <div class="name-input">
+    <label for="username">Name: </label>
+    <input type="text" name="username" id="username" autocomplete="off" />
+  </div>
   <div class="chatroom">
-    <div class="name-input">
-      <label for="username">Name: </label>
-      <input type="text" name="username" id="username" autocomplete="off" />
-    </div>
-
   </div>
 
   <form>
@@ -23,8 +22,8 @@
     <button type="submit">SEND</button>
   </form>
 
-  <script src="/socket.io/socket.io.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/index.js"></script>
 </body>
 
