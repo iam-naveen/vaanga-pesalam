@@ -15,7 +15,11 @@ const io = new Server(server);
 
 io.on("connection", (socket) => {
   console.log(socket.id + " Connected");
-  socket.on("disconnect", () => console.log(socket.id + " Disconnected"));
+  io.emit("traffic", "New User Joined Chat");
+  socket.on("disconnect", () => {
+    console.log(socket.id + " Disconnected");
+    io.emit("traffic", "A User Left the Chat");
+  });
 
   socket.on("message", (data) => {
     io.emit("message", data);

@@ -8,7 +8,8 @@ const chatbox = document.querySelector(".chatroom");
 client.on("message", (data) => {
   const content = document.createElement("p");
   content.textContent = data.msg;
-  content.id = data.id;
+  content.className = "message";
+  const msg = document.createElement("div");
 
   const name = document.createElement("p");
   name.className = "username";
@@ -17,20 +18,20 @@ client.on("message", (data) => {
 
   if (data.id === client.id) {
     if (last == null || last.id != client.id) name.textContent = "You";
-    content.className = "me";
+    msg.className = "me";
   } else {
     if (last.id != data.id) name.textContent = data.username;
-    content.className = "others";
+    msg.className = "others";
   }
 
   if (last.id != data.id) {
-    const msg = document.createElement("div");
     msg.append(name);
     msg.append(content);
-    msg.className = "message";
     msg.id = data.id;
     chatbox.append(msg);
   } else last.append(content);
+
+  chatbox.scrollTo(0, chatbox.scrollHeight);
 
   console.log(last.id);
 });
@@ -47,4 +48,10 @@ form.addEventListener("submit", (e) => {
 
     input.value = "";
   }
+});
+
+client.on("traffic", (message) => {
+  let p = document.createElement("p");
+  p.append(message);
+  chatbox.append(p);
 });
