@@ -25,6 +25,7 @@ client.on('message', (data) => {
 
     msg.append(name);
     msg.append(content);
+    msg.className = "message";
 
     document.querySelector(".chatroom").append(msg);
     console.log(msg);
